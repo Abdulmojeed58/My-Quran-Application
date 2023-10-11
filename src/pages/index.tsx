@@ -1,23 +1,19 @@
 import { useEffect } from "react";
-import { Inter } from "next/font/google";
 import { useAppDispatch } from "@/hooks/useRedux";
 import { quranActions } from "@/store/quranSlice";
 import QuranChapters from "@/components/QuranChapters";
-
-const inter = Inter({ subsets: ["latin"] });
+import { fetchBookmarkedItem } from "@/store/bookmark-action";
 
 export default function Home(props: { data: any }) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(quranActions.fetchQuranData(props.data));
+    dispatch(fetchBookmarkedItem())
   }, []);
 
-  // console.log(props.list);
   return (
-    <main className={`h-screen overflow-y-scroll ${inter.className}`}>
-      {/* <div>{JSON.stringify(props.list)}</div> */}
-      <h2>Home</h2>
+    <main className={`h-screen overflow-y-scroll font-custom pt-[6rem] md:pt-0`}>
       <QuranChapters />
     </main>
   );

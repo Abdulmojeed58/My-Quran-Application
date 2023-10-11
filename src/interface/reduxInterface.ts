@@ -1,4 +1,5 @@
 export type IinitialState = {
-    allChapterLists: any[];
-    loading: boolean
-}
+  allChapterLists: any[];
+  bookmarked: { verse: string; chapter: string; id: number; ip: string }[];
+  isNavOpen: boolean;
+};

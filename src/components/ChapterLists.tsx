@@ -9,7 +9,6 @@ interface ChapterListProps {
 const ChapterList: React.FC<ChapterListProps> = ({  }) => {
     const data = useAppSelector((state)=>state.quran.allChapterLists)
 
-    // console.log(data)
 
     return (
         <ul className='grid gap-5'>

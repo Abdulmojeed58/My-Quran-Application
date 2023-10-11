@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/router";
+import VerseItem from "@/components/VerseItem";
 
 const Chapter = ({ data }: { data: any }) => {
   const params = useParams();
@@ -16,10 +17,32 @@ const Chapter = ({ data }: { data: any }) => {
     return <div>Loading...</div>;
   }
 
-  const allWords = verses?.map((verse: any) => verse.words);
-  const a = allWords?.flatMap((b:any)=>b?.map((c:any)=>c.transliteration.text))
-  console.log(allWords);
-  return <div>Chapter</div>;
+  const allVerses = verses
+    ?.map((verse: any) => verse.words)
+    ?.map((b: any) =>
+      b?.flatMap((c: any) => c?.transliteration.text).join(" ")
+    );
+
+  if (allVerses?.length === 0) {
+    return <p>Loading...</p>;
+  }
+
+  console.log(params);
+  return (
+    <div className="grid gap-5 mt-[3rem] md:mt-0 p-[2rem] md:p-[3rem] mx-auto">
+      <h1 className="font-[600] text-[2rem]">Quran Chapter {params?.id}</h1>
+      <div className="grid">
+        {allVerses?.map((verse: string, i: number) => (
+          <VerseItem
+            key={i}
+            verse={verse}
+            number={i + 1}
+            chapterId={String(params.id)}
+          />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Chapter;
