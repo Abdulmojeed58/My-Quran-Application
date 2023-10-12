@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/router";
 import VerseItem from "@/components/VerseItem";
 
-const Chapter = ({ data }: { data: any }) => {
+const Chapter = () => {
   const params = useParams();
   const router = useRouter();
   const [verses, setVerses] = useState<any>();
@@ -11,13 +11,12 @@ const Chapter = ({ data }: { data: any }) => {
 
   useEffect(() => {
     fetchData();
-    setVerses(data.verses);
     setCurrentChapter(String(params.id));
   }, []);
 
   const fetchData = async () => {
     try {
-      const res = await fetch(`/api/chapters`, {
+      const res = await fetch(`/api/verses/${params.id}`, {
         method: "GET",
         headers: {
           "Cache-Control": "no-cache",
@@ -28,14 +27,12 @@ const Chapter = ({ data }: { data: any }) => {
         throw new Error("Failed to fetch Data");
       }
 
-      const datas = await res.json();
+      const data = await res.json();
 
-      console.log(datas);
+      setVerses(data.verses);
     } catch (error) {
       console.log(error);
     }
-
-    // setVerses(data.verses);
   };
 
   if (router.isFallback) {
@@ -72,33 +69,3 @@ const Chapter = ({ data }: { data: any }) => {
 };
 
 export default Chapter;
-
-export async function getStaticPaths() {
-  const res = await fetch("https://api.quran.com/api/v4/chapters?language=en");
-  const data = await res.json();
-
-  // Generate an array of objects containing the `params` object for each chapter
-  const paths = data.chapters.map((chapter: any) => ({
-    params: { id: `${chapter?.id}` },
-  }));
-
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
-export async function getStaticProps(context: any) {
-  const id = context.params.id;
-  const res = await fetch(
-    `https://api.quran.com/api/v4/verses/by_chapter/${id}?language=en&words=true`
-  );
-
-  const data = await res.json();
-
-  return {
-    props: {
-      data,
-    },
-  };
-}

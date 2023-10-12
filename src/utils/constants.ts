@@ -1,10 +1,10 @@
 export const whitelistedIps = [
   {
-    ip: "127.0.0.1",
+    ip: "127.04.02.10",
     isRemovable: false,
   },
   {
-    ip: "102.89.44.1",
+    ip: "102.89.44.15",
     isRemovable: false,
   },
 ];

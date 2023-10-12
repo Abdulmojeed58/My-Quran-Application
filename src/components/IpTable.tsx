@@ -6,7 +6,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
 
 function createData(name: string, status: string, isRemovable: boolean) {
   return { name, status, isRemovable };
@@ -45,14 +44,12 @@ export default function DenseTable({
                 {row.status}
               </TableCell>
               <TableCell align="right">
-                <Button
-                  variant="contained"
-                  type="button"
+                <button
+                  className="uppercase border rounded-[6px] p-2 text-[0.8rem] bg-black text-white hover:bg-[#000000c7] transition-colors ease-in-out duration-75 disabled:cursor-not-allowed disabled:bg-[#0000008c] disabled:hover-[#0000008c]:"
                   disabled={!row.isRemovable}
-                  sx={{ backgroundColor: "#000000", color: "white" }}
                 >
                   DELETE
-                </Button>
+                </button>
               </TableCell>
             </TableRow>
           ))}
