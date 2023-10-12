@@ -1,7 +1,10 @@
 import { Config } from '@/utils/constants';
 import pino from 'pino';
 
-const localTransport = pino.transport({
+const transport = Config.appEnv === 'production' ? pino.transport({
+    target: '@logtail/pino',
+    options: { sourceToken: Config.liveTailToken },
+}) : pino.transport({
     targets: [
         {
             level: 'trace',
@@ -19,13 +22,6 @@ const localTransport = pino.transport({
             },
         },
     ],
-});
-
-const productionTransport = pino.transport({
-    target: '@logtail/pino',
-    options: { sourceToken: Config.liveTailToken },
-});
-
-const transport = Config.appEnv === 'production' ? productionTransport : localTransport;
+});;
 
 export const logger = pino({ name: 'app', level: 'trace' }, transport);
