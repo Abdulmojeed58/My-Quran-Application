@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import PlayDisabledIcon from "@mui/icons-material/PlayDisabled";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 import { quranActions } from "@/store/quranSlice";
-import { addItemToBookmark, removeBookmarkedItem } from "@/store/bookmark-action";
+import {
+  addItemToBookmark,
+  removeBookmarkedItem,
+} from "@/store/bookmark-action";
 
 interface VerseItemProps {
   verse: string;
   number: number;
   chapterId: string;
+  handleBookmark: boolean;
 }
 
-const VerseItem: React.FC<VerseItemProps> = ({ verse, number, chapterId }) => {
+const VerseItem: React.FC<VerseItemProps> = ({
+  verse,
+  number,
+  chapterId,
+  handleBookmark = false,
+}) => {
   const { bookmarked } = useAppSelector((state) => state.quran);
   const isBookmarked = bookmarked.some(
     (bookmark) => bookmark.id === number && bookmark.chapter === chapterId
@@ -35,6 +44,7 @@ const VerseItem: React.FC<VerseItemProps> = ({ verse, number, chapterId }) => {
   };
 
   const handleToggleBookmark = async () => {
+    if (!handleBookmark) return;
     const newBookmark = {
       verse,
       chapter: chapterId,
@@ -42,20 +52,20 @@ const VerseItem: React.FC<VerseItemProps> = ({ verse, number, chapterId }) => {
       ip: await getCurrentIp(),
     };
 
-    const existingBookmarkIndex = bookmarked.findIndex(
+    const existingBookmarkIndex = bookmarked.find(
       (bookmark) => bookmark.id === number && bookmark.chapter === chapterId
     );
 
     dispatch(quranActions.addOrRemoveBookmark(newBookmark));
 
-    if(!existingBookmarkIndex) {
-      dispatch(removeBookmarkedItem(newBookmark))
-      console.log('removed')
-      return
+    if (existingBookmarkIndex) {
+      dispatch(removeBookmarkedItem(newBookmark));
+      console.log("removed");
+      return;
     }
-    
+
     dispatch(addItemToBookmark(newBookmark));
-    console.log('added')
+    console.log("added");
   };
 
   return (

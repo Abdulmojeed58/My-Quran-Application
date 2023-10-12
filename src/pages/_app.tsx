@@ -9,7 +9,12 @@ import Navbar from "@/components/Navbar";
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
-  if (router.pathname.includes("chapter") || router.pathname.includes("bookmark")) {
+  if (
+    router.pathname.includes("chapter") ||
+    router.pathname.includes("bookmark") ||
+    router.pathname.includes("admin") ||
+    router.pathname.includes("ipConfig")
+  ) {
     return (
       <Provider store={store}>
         <div className="pt-[4rem]">

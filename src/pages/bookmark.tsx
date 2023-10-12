@@ -1,5 +1,6 @@
 import VerseItem from "@/components/VerseItem";
 import { useAppSelector } from "@/hooks/useRedux";
+import { getCurrentIp } from "@/utils/getCurrentIpAddress";
 import React, { useEffect, useState } from "react";
 
 const Bookmark = () => {
@@ -7,23 +8,13 @@ const Bookmark = () => {
   const [currentIp, setCurrentIp] = useState<string | null>(null);
 
   useEffect(() => {
-      getCurrentIp();
-
+    handleIpAddress()
   }, []);
 
-  const getCurrentIp = async () => {
-    try {
-      const res = await fetch("https://api.ipify.org?format=json");
+  const handleIpAddress = async() => {
+    setCurrentIp(await getCurrentIp())
+  }
 
-      if (!res.ok) {
-        throw new Error("An Error occured");
-      }
-      const data = await res.json();
-      setCurrentIp(data.ip);
-    } catch (error) {
-      console.log("Error", error);
-    }
-  };
 
   const bookmarkedBasedOnIp = bookmarked.filter(
     (bookmarked) => bookmarked.ip === currentIp
@@ -41,7 +32,13 @@ const Bookmark = () => {
     <div className="grid gap-5 p-[2rem] md:p-[3rem] mx-auto">
       <div className="grid">
         {bookmarkedBasedOnIp?.map(({ verse, chapter, id }, i) => (
-          <VerseItem key={i} verse={verse} number={id} chapterId={chapter} />
+          <VerseItem
+            key={i}
+            verse={verse}
+            number={id}
+            chapterId={chapter}
+            handleBookmark={true}
+          />
         ))}
       </div>
     </div>

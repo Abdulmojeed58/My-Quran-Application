@@ -7,10 +7,36 @@ const Chapter = ({ data }: { data: any }) => {
   const params = useParams();
   const router = useRouter();
   const [verses, setVerses] = useState<any>();
+  const [currentChapter, setCurrentChapter] = useState<string | null>(null);
 
   useEffect(() => {
+    fetchData();
     setVerses(data.verses);
+    setCurrentChapter(String(params.id));
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const res = await fetch(`/api/chapters`, {
+        method: "GET",
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch Data");
+      }
+
+      const datas = await res.json();
+
+      console.log(datas);
+    } catch (error) {
+      console.log(error);
+    }
+
+    // setVerses(data.verses);
+  };
 
   if (router.isFallback) {
     // Render a loading indicator or fallback component
@@ -27,17 +53,17 @@ const Chapter = ({ data }: { data: any }) => {
     return <p>Loading...</p>;
   }
 
-  console.log(params);
   return (
     <div className="grid gap-5 mt-[3rem] md:mt-0 p-[2rem] md:p-[3rem] mx-auto">
-      <h1 className="font-[600] text-[2rem]">Quran Chapter {params?.id}</h1>
+      <h1 className="font-[600] text-[2rem]">Quran Chapter {currentChapter}</h1>
       <div className="grid">
         {allVerses?.map((verse: string, i: number) => (
           <VerseItem
             key={i}
             verse={verse}
             number={i + 1}
-            chapterId={String(params.id)}
+            chapterId={String(currentChapter)}
+            handleBookmark={true}
           />
         ))}
       </div>

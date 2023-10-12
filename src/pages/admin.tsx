@@ -1,14 +1,28 @@
 import { useAppSelector } from "@/hooks/useRedux";
 import VerseItem from "@/components/VerseItem";
+import PrivateRoute from "@/components/PrivateRoute";
+import { useEffect, useState } from "react";
+import { getCurrentIp } from "@/utils/getCurrentIpAddress";
 
 const Admin = () => {
   const bookmarked = useAppSelector((state) => state.quran.bookmarked);
+  const configuredIp = useAppSelector((state) => state.ipAddress.ipLists);
+
+  const [currentIp, setCurrentIp] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleIpAddress = async () => {
+      setCurrentIp(await getCurrentIp());
+    };
+    handleIpAddress();
+  }, []);
+
+  if (!currentIp) return <p>loading...</p>;
 
   const groupedBookmarks: any = [];
 
   bookmarked.forEach((item) => {
     const ip = item.ip;
-    // Check if an object with this IP already exists
     const existingGroup = groupedBookmarks.find(
       (group: any) => group.groupedIP === ip
     );
@@ -25,41 +39,45 @@ const Admin = () => {
     }
   });
 
-  // groupedBookmarks now contains an array of objects, each with groupedIP and items
-
-  //   const groupedBookmarksArray = groupedBookmarks;
-
-  console.log(groupedBookmarks);
-  //   console.log(bookmarked)
-
   if (bookmarked.length === 0) {
     return (
-      <p className="py-[7rem] md:py-[3rem] text-center px3">
-        No bookmarked verse available. Please add a verse to bookmark.
-      </p>
+      <PrivateRoute configuredIp={configuredIp} currentIp={currentIp}>
+        <p className="py-[7rem] md:py-[3rem] text-center px3">
+          No bookmarked verse available. Please add a verse to bookmark.
+        </p>
+      </PrivateRoute>
     );
   }
 
   return (
-    <div className="grid gap-5 p-[2rem] md:p-[3rem] mx-auto">
-      <div className="grid">
-        {groupedBookmarks?.map(({ groupedIP, items }: any) => (
-          <div key={groupedIP}>
-            <h1>IP: {groupedIP}</h1>
-            <div>
-              {items?.map(({ verse, chapter, id }: any, i: number) => (
-                <VerseItem
-                  key={i}
-                  verse={verse}
-                  number={id}
-                  chapterId={chapter}
-                />
-              ))}
+    <PrivateRoute configuredIp={configuredIp} currentIp={currentIp}>
+      <div className="grid gap-5 p-[2rem] pt-[5rem] md:p-[3rem] mx-auto">
+        <div className="grid gap-[3rem]">
+          {groupedBookmarks?.map(({ groupedIP, items }: any) => (
+            <div key={groupedIP}>
+              <h1 className="font-bold text-[1.2rem]">
+                IP: {groupedIP},{" "}
+                <span className="font-normal">
+                  ({items.length}) {items.length === 1 ? "verse" : "verses"}{" "}
+                  bookmarked
+                </span>
+              </h1>
+              <div>
+                {items?.map(({ verse, chapter, id }: any, i: number) => (
+                  <VerseItem
+                    key={i}
+                    verse={verse}
+                    number={id}
+                    chapterId={chapter}
+                    handleBookmark={false}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </PrivateRoute>
   );
 };
 

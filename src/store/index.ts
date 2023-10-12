@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import quranReducer from "./quranSlice";
+import ipAddressReducer from "./ipAddressSlice";
 // ...
 
 export const store = configureStore({
-  reducer: { quran: quranReducer },
+  reducer: { quran: quranReducer, ipAddress: ipAddressReducer },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
