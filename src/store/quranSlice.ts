@@ -5,6 +5,8 @@ const initialState: IinitialState = {
   allChapterLists: [],
   bookmarked: [],
   isNavOpen: false,
+  isLoading: false,
+  isError: false,
 };
 
 const quranSlice = createSlice({
@@ -45,6 +47,12 @@ const quranSlice = createSlice({
     },
     handleToggleNav(state) {
       state.isNavOpen = !state.isNavOpen;
+    },
+    handleLoading(state, action) {
+      state.isLoading = action.payload;
+    },
+    handleError(state, action) {
+      state.isError = action.payload;
     },
   },
 });

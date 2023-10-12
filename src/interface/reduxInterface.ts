@@ -2,6 +2,8 @@ export type IinitialState = {
   allChapterLists: Chapter[];
   bookmarked: { verse: string; chapter: string; id: number; ip: string }[];
   isNavOpen: boolean;
+  isLoading: boolean;
+  isError: boolean;
 };
 
 export type ipAddressState = {

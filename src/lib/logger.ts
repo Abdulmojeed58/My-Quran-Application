@@ -1,6 +1,7 @@
+import { Config } from '@/utils/constants';
 import pino from 'pino';
 
-const transport = pino.transport({
+const localTransport = pino.transport({
     targets: [
         {
             level: 'trace',
@@ -19,5 +20,12 @@ const transport = pino.transport({
         },
     ],
 });
+
+const productionTransport = pino.transport({
+    target: '@logtail/pino',
+    options: { sourceToken: Config.liveTailToken },
+});
+
+const transport = Config.appEnv === 'production' ? productionTransport : localTransport;
 
 export const logger = pino({ name: 'app', level: 'trace' }, transport);

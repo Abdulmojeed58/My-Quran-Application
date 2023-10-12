@@ -15,7 +15,7 @@ export enum CacheKeys {
 }
 
 export const Config = {
-    redisPassword: process.env.REDIS_PASSWORD,
-    redisHost: process.env.REDIS_HOST,
-    redisPort: process.env.REDIS_PORT,
+    redisUrl: process.env.REDIS_URL,
+    appEnv: process.env.APP_ENV,
+    liveTailToken: process.env.LIVE_TAIL_TOKEN,
 }
