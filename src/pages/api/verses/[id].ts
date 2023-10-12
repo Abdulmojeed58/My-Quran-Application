@@ -4,6 +4,7 @@ import { getCacheControl, handleDefaultRoutes } from '@/lib/custom';
 import { addToCache, isRedisReady, connectRedis, getFromCache } from '@/lib/redis';
 import { CacheKeys } from '@/utils/constants';
 
+
 connectRedis();
 
 
