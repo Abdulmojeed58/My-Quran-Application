@@ -6,4 +6,7 @@ module.exports = {
     APP_ENV: process.env.APP_ENV,
     LIVE_TAIL_TOKEN: process.env.LIVE_TAIL_TOKEN,
   },
+  experimental: {
+    serverComponentsExternalPackages: ["@logtail/pino"],
+  },
 };
