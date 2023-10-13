@@ -73,7 +73,6 @@ async function getChapters(
             chapters = data.chapters;
 
             // add to cache but do not await to delay api response
-            // this is non blocking
             if (isRedisReady) {
                 addToCache(CacheKeys.CHAPTERS, chapters, { expiry: 60 }).then(() =>
                     logger.info({}, '[getChapters] data added to cache')

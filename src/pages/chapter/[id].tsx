@@ -8,15 +8,18 @@ const Chapter = () => {
   const router = useRouter();
   const [verses, setVerses] = useState<any>();
   const [currentChapter, setCurrentChapter] = useState<string | null>(null);
+  // const [totalPages, setTotalPages] = useState<number | null>(null);
+  const [paginationNumber, setPaginationNumber] = useState<number[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
     fetchData();
     setCurrentChapter(String(params.id));
-  }, []);
+  }, [currentPage]);
 
   const fetchData = async () => {
     try {
-      const res = await fetch(`/api/verses/${params.id}`, {
+      const res = await fetch(`/api/verses/${params.id}?page=${currentPage}`, {
         method: "GET",
         headers: {
           "Cache-Control": "no-cache",
@@ -30,10 +33,21 @@ const Chapter = () => {
       const data = await res.json();
 
       setVerses(data.verses);
+
+      const totalPages = data.pagination.total_pages;
+
+      const pagesArray = [];
+
+      for (let i = 1; i <= totalPages; i++) {
+        pagesArray.push(i);
+      }
+
+      setPaginationNumber(pagesArray);
     } catch (error) {
       console.log(error);
     }
   };
+
 
   if (router.isFallback) {
     // Render a loading indicator or fallback component
@@ -58,11 +72,23 @@ const Chapter = () => {
           <VerseItem
             key={i}
             verse={verse}
-            number={i + 1}
+            number={verses[i].verse_number}
             chapterId={String(currentChapter)}
             handleBookmark={true}
           />
         ))}
+      </div>
+      <div className="my-[1rem] flex gap-[1rem] flex-wrap justify-center">
+        {paginationNumber.length > 1 &&
+          paginationNumber.map((number) => (
+            <button
+              key={number}
+              className={`btn ${currentPage === number ? "bg-red-400" : ""}`}
+              onClick={() => setCurrentPage(number)}
+            >
+              {number}
+            </button>
+          ))}
       </div>
     </div>
   );

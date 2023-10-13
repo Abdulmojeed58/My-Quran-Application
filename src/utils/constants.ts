@@ -4,7 +4,15 @@ export const whitelistedIps = [
     isRemovable: false,
   },
   {
+    ip: "102.89.23.248",
+    isRemovable: false,
+  },
+  {
     ip: "102.89.44.15",
+    isRemovable: false,
+  },
+  {
+    ip: "102.89.23.105",
     isRemovable: false,
   },
 ];

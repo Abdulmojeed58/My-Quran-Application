@@ -51,7 +51,6 @@ export const addItemToBookmark = (item: {
 
     try {
       const data = await updateBookmark();
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

@@ -79,13 +79,8 @@ async function getVerses(
     res: NextApiResponse<VerseResponse | { message: string }>
 ) {
     try {
-        // get the chapter id and the page
-        // there's pagination, if you save to cache with the id alone
-        // you will only be getting first page from the cache
-        // save to cache with the id and page number
         let { id, page } = req.query;
 
-        // validation against passing anything not a number as id
         if (!id || isNaN(Number(id))) {
             return res
                 .status(400)
@@ -128,7 +123,6 @@ async function getVerses(
             result = (await res.json()) as VerseResponse;
 
             // add to cache but do not await to delay api response
-            // this is non blocking
             if (isRedisReady) {
                 addToCache(key, result, { expiry: 60 }).then(() =>
                     logger.info({}, '[getVerses] verses added to cache')

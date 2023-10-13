@@ -6,7 +6,6 @@ export const getCurrentIp = async () => {
       throw new Error("An Error occured");
     }
     const data = await res.json();
-    console.log(data.ip)
     return data.ip;
   } catch (error) {
     console.log("Error", error);
