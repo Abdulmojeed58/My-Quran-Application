@@ -6,6 +6,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { ipAddressActions } from "@/store/ipAddressSlice";
 
 function createData(name: string, status: string, isRemovable: boolean) {
   return { name, status, isRemovable };
@@ -16,9 +18,14 @@ export default function DenseTable({
 }: {
   data: { ip: string; isRemovable: boolean }[];
 }) {
+  const dispatch = useAppDispatch();
   const rows = data.map((item) =>
     createData(item.ip, "Active", item.isRemovable)
   );
+
+  const handleRemoveIpAddress = (ip: string) => {
+    dispatch(ipAddressActions.removeIpAddress(ip));
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -47,6 +54,7 @@ export default function DenseTable({
                 <button
                   className="uppercase border rounded-[6px] p-2 text-[0.8rem] bg-black text-white hover:bg-[#000000c7] transition-colors ease-in-out duration-75 disabled:cursor-not-allowed disabled:bg-[#0000008c] disabled:hover-[#0000008c]:"
                   disabled={!row.isRemovable}
+                  onClick={() => handleRemoveIpAddress(row.name)}
                 >
                   DELETE
                 </button>

@@ -1,6 +1,6 @@
 export const whitelistedIps = [
   {
-    ip: "127.04.02.10",
+    ip: "102.89.43.30",
     isRemovable: false,
   },
   {
@@ -10,12 +10,12 @@ export const whitelistedIps = [
 ];
 
 export enum CacheKeys {
-    CHAPTERS = 'chapters',
-    VERSE = 'verse',
+  CHAPTERS = "chapters",
+  VERSE = "verse",
 }
 
 export const Config = {
-    redisUrl: process.env.REDIS_URL,
-    appEnv: process.env.APP_ENV,
-    liveTailToken: process.env.LIVE_TAIL_TOKEN,
-}
+  redisUrl: process.env.REDIS_URL,
+  appEnv: process.env.APP_ENV,
+  liveTailToken: process.env.LIVE_TAIL_TOKEN,
+};

@@ -1,3 +1,4 @@
+import IpForm from "@/components/IpForm";
 import DenseTable from "@/components/IpTable";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 import { ipAddressActions } from "@/store/ipAddressSlice";
@@ -5,6 +6,7 @@ import { getCurrentIp } from "@/utils/getCurrentIpAddress";
 import React from "react";
 
 const IpConfig = () => {
+    const isIpForm = useAppSelector((state) => state.ipAddress.isIpForm);
   const { ipLists } = useAppSelector((state) => state.ipAddress);
   const dispatch = useAppDispatch();
 
@@ -14,7 +16,13 @@ const IpConfig = () => {
     dispatch(ipAddressActions.addNewIpAddress(newIp));
   };
 
+  const handleToggleForm = () => {
+    dispatch(ipAddressActions.handleToggleForm());
+  };
+
   return (
+    <>
+    {isIpForm && <IpForm />}
     <div className="mt-[3rem] md:mt-0 p-[2rem] md:p-[3rem] mx-auto">
       <h2>Configure your ip</h2>
       <div className=" flex gap-5 mt-5 items-center justify-center md:justify-end">
@@ -24,7 +32,7 @@ const IpConfig = () => {
         >
           Add current ip address
         </button>
-        <button className="uppercase border rounded-[6px] p-2 text-[0.8rem] bg-black text-white hover:bg-[#000000c7] transition-colors ease-in-out duration-75">
+        <button onClick={handleToggleForm} className="uppercase border rounded-[6px] p-2 text-[0.8rem] bg-black text-white hover:bg-[#000000c7] transition-colors ease-in-out duration-75">
           Add ip address
         </button>
       </div>
@@ -32,6 +40,7 @@ const IpConfig = () => {
         <DenseTable data={ipLists} />
       </div>
     </div>
+    </>
   );
 };
 

@@ -6,9 +6,8 @@
 
 * {
   scroll-behavior: smooth;
-  scroll-padding-top:7rem;
+  scroll-padding-top: 7rem;
 }
-
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -66,5 +65,20 @@ body {
 
   .not-active {
     clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+  }
+}
+
+.modal {
+  animation: animate 0.2s linear forwards;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

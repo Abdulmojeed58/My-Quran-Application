@@ -2,7 +2,10 @@ import { ipAddressState } from "@/interface/reduxInterface";
 import { whitelistedIps } from "@/utils/constants";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: ipAddressState = { ipLists: whitelistedIps };
+const initialState: ipAddressState = {
+  ipLists: whitelistedIps,
+  isIpForm: false,
+};
 
 const ipAddressSlice = createSlice({
   name: "ipAddress",
@@ -19,7 +22,6 @@ const ipAddressSlice = createSlice({
       } else {
         console.log("This Ip address already exist");
       }
-
     },
 
     removeIpAddress(state, action) {
@@ -30,8 +32,11 @@ const ipAddressSlice = createSlice({
       if (itemToRemoveIndex !== -1) {
         state.ipLists.splice(itemToRemoveIndex, 1);
       } else {
-        console.log(`Item not found in the array.`);
+        console.log(`Item not found.`);
       }
+    },
+    handleToggleForm(state) {
+      state.isIpForm = !state.isIpForm;
     },
   },
 });

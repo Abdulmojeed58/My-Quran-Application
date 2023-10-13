@@ -11,6 +11,7 @@ export type ipAddressState = {
     ip: string;
     isRemovable: boolean;
   }[];
+  isIpForm: boolean;
 };
 
 export interface Chapter {
