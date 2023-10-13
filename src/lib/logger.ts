@@ -1,5 +1,6 @@
 import { Config } from '@/utils/constants';
 import pino from 'pino';
+import "@logtail/pino";
 
 const transport = Config.appEnv === 'production' ? pino.transport({
     target: '@logtail/pino',
