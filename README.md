@@ -1,5 +1,5 @@
 
-# Project Title
+# QURAN APP
 
 A Quran app that show all chapters and verses of the Holy Quran. And also an option to bookmark the any verse or verses.
 
